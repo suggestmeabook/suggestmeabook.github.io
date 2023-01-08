@@ -27,9 +27,11 @@ function App() {
     <div className="App">
       <h1>
     SuggestABook.app</h1>
+    <p>
+    We use prompt engineering to get an awesome list of titles suggested by ChatGPT.</p>
       <TextField 
         id="outlined-basic" 
-        label="Write your book request" 
+        label="What did you like?" 
         style={{width: "80%"}} 
         variant="outlined" 
         multiline
