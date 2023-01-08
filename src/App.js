@@ -31,7 +31,7 @@ function App() {
     We use prompt engineering to get an awesome list of titles suggested by ChatGPT.</p>
       <TextField 
         id="outlined-basic" 
-        label="What did you like?" 
+                  label="What kind of book are you looking for?" 
         style={{width: "80%"}} 
         variant="outlined" 
         multiline
