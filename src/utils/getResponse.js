@@ -4,7 +4,7 @@ async function getResponse(setResponse, inputText) {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Bearer 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"
+          Authorization: process.env.OPENAI_API_KEY
         },
         method: "POST"
       })
