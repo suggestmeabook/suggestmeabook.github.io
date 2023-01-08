@@ -1,8 +1,7 @@
 import './App.css';
 import TextField from '@mui/material/TextField';
-import React, { useEffect, useState } from "react";
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
-import getResponse from './utils/getResponse';
+import React, {  useState } from "react";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
 import IconButton from '@mui/material/IconButton';
 
