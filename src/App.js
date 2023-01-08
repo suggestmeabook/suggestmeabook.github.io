@@ -22,6 +22,8 @@ const theme = createTheme({
 function App() {
   const [response, setResponse] = useState("");
   const [textValue, setText] = useState("");
+  const [loading, setLoading] = useState(false);
+
   return (
     <ThemeProvider theme={theme}>
     <div className="App">
@@ -37,15 +39,25 @@ function App() {
         multiline
         rows={2}
                   onChange={(event) => { setText(event.target.value)}}
-        InputProps={{endAdornment: <IconButton aria-label="delete" onClick={() => {
-          getResponse(setResponse, textValue);
+        InputProps={{endAdornment: <IconButton aria-label="get" onClick={() => {
+          async function fetchTodo() {
+            const url = `/.netlify/functions/todo?id=${textValue}`;
+            try {
+              setLoading(true);
+              const todo = await fetch(url).then((res) => res.json());
+              setResponse(todo.title);
+            } catch (err) {
+              console.log(err);
+            } finally {
+              setLoading(false);
+            }
+          }
+          fetchTodo();
         }}>
         <SendIcon />
       </IconButton>}}
         />
-      <p>
-        {response}
-      </p>
+        <p>{loading ? "Loading..." : response}</p>
       <header className="App-header">
       </header>
     </div>
