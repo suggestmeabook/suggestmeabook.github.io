@@ -17,7 +17,7 @@ exports.handler = async function (event, context) {
     .then(data => {return data["choices"][0]["text"]})
     return {
         statusCode: 200,
-        body: JSON.stringify({ title: responseText }),
+        body: JSON.stringify({ response: responseText }),
     }
   } catch (err) {
     return {

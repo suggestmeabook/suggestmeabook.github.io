@@ -44,7 +44,7 @@ function App() {
             try {
               setLoading(true);
               const todo = await fetch(url).then((res) => res.json());
-              setResponse(todo.title);
+              setResponse(extractBulletPoints(todo.response));
             } catch (err) {
               console.log(err);
             } finally {
@@ -56,12 +56,22 @@ function App() {
         <SendIcon />
       </IconButton>}}
         />
-              <p style={{ maxWidth: "80%", margin: "auto", marginTop: "30px" }}> {loading ? "Loading..." : response}</p>
+              <div style={{ maxWidth: "80%", margin: "auto", marginTop: "30px" }}> {loading ? <p>Loading...</p> : response}</div>
       <header className="App-header">
       </header>
     </div>
     </ThemeProvider>
   );
+}
+
+function getEl(obj, ind){return (<li>{obj.replace(".", "")}</li>)}
+
+function extractBulletPoints(textInput){
+  var splitted = textInput.split(/[0-9]+/)
+  var chunks = splitted.splice(1,999).map((obj, ind) =>getEl(obj, ind));
+  return <><p>{splitted[0]}</p><ol>
+      {chunks}
+  </ol></>
 }
 
 export default App;
