@@ -28,12 +28,12 @@ function App() {
     <div className="App">
       <h1>
     SuggestABook.app</h1>
-    <p>
+    <p style={{marginTop: "10px"}} >
     We use prompt engineering to get an awesome list of titles suggested by ChatGPT.</p>
       <TextField 
         id="outlined-basic" 
                   label="What kind of book are you looking for?" 
-        style={{width: "80%"}} 
+        style={{width: "80%",marginTop: "30px"}} 
         variant="outlined" 
         multiline
         rows={2}
@@ -56,7 +56,7 @@ function App() {
         <SendIcon />
       </IconButton>}}
         />
-        <p>{loading ? "Loading..." : response}</p>
+              <p style={{ maxWidth: "80%", margin: "auto", marginTop: "30px" }}> {loading ? "Loading..." : response}</p>
       <header className="App-header">
       </header>
     </div>
