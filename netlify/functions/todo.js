@@ -2,7 +2,8 @@ const fetch = require('node-fetch')
 
 exports.handler = async function (event, context) {
   try{
-    const { id } = event.queryStringParameters;
+    var { id } = event.queryStringParameters;
+    if (id.split(" ").length === 1) {id = "Suggest some great books on "+id+" please"};
     const prompt = createBookPrompt(id);
     responseText = await fetch("https://api.openai.com/v1/completions", {
         body: "{\"model\":\"davinci:ft-personal:suggestmeabook-v0-2023-01-13-12-26-27\", \"prompt\":\""+prompt+"\", \"max_tokens\": 150,\"temperature\": 0.5, \"stop\":\"\\nHuman\", \"best_of\":5}",

@@ -56,7 +56,7 @@ function App() {
         <SendIcon />
       </IconButton>}}
         />
-              <div style={{ maxWidth: "80%", margin: "auto", marginTop: "30px" }}> {loading ? <p>Loading...</p> : response}</div>
+              <div style={{ textAlign: "left", maxWidth: "80%", margin: "auto", marginTop: "30px" }}> {loading ? <p>Loading...</p> : response}</div>
       <header className="App-header">
       </header>
     </div>
@@ -68,7 +68,7 @@ function getEl(obj, ind){return (<li>{obj.replace(".", "")}</li>)}
 
 function extractBulletPoints(textInput){
   var splitted = textInput.split(/[0-9]\./)
-  var chunks = splitted.splice(1,999).map((obj, ind) =>getEl(obj, ind));
+  var chunks = splitted.splice(1,3).map((obj, ind) =>getEl(obj, ind));
   return <><p>{splitted[0]}</p><ol>
       {chunks}
   </ol></>
