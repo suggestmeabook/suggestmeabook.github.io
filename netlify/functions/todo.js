@@ -5,7 +5,7 @@ exports.handler = async function (event, context) {
     const { id } = event.queryStringParameters;
     const prompt = createBookPrompt(id);
     responseText = await fetch("https://api.openai.com/v1/completions", {
-        body: "{\"model\":\"davinci\", \"prompt\":\""+prompt+"\", \"max_tokens\": 150,\"temperature\": 0.5, \"stop\":\"\\nHuman\", \"best_of\":5}",
+        body: "{\"model\":\"davinci:ft-personal:suggestmeabook-v0-2023-01-13-12-26-27\", \"prompt\":\""+prompt+"\", \"max_tokens\": 150,\"temperature\": 0.5, \"stop\":\"\\nHuman\", \"best_of\":5}",
         headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
