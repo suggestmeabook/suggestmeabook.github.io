@@ -67,7 +67,7 @@ function App() {
 function getEl(obj, ind){return (<li>{obj.replace(".", "")}</li>)}
 
 function extractBulletPoints(textInput){
-  var splitted = textInput.split(/[0-9]\./)
+  var splitted = textInput.split(/\s[0-9]\.\s/)
   var chunks = splitted.splice(1,3).map((obj, ind) =>getEl(obj, ind));
   return <><p>{splitted[0]}</p><ol>
       {chunks}
