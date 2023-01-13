@@ -1,9 +1,17 @@
 import './App.css';
 import TextField from '@mui/material/TextField';
-import React, {  useState } from "react";
+import React, {  useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
 import IconButton from '@mui/material/IconButton';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import stringSimilarity from "string-similarity";
+import Grid from '@mui/material/Grid';
+import CardMedia from '@mui/material/CardMedia';
 
 const theme = createTheme({
   palette: {
@@ -44,7 +52,7 @@ function App() {
             try {
               setLoading(true);
               const todo = await fetch(url).then((res) => res.json());
-              setResponse(extractBulletPoints(todo.response));
+              setResponse(todo.response);
             } catch (err) {
               console.log(err);
             } finally {
@@ -56,18 +64,112 @@ function App() {
         <SendIcon />
       </IconButton>}}
         />
-              <div style={{ textAlign: "left", maxWidth: "80%", margin: "auto", marginTop: "30px" }}> {loading ? <p>Loading...</p> : response}</div>
+              <div style={{ textAlign: "left", maxWidth: "80%", margin: "auto", marginTop: "30px" }}> {loading ? <p>Loading...</p> : extractBulletPoints(response)}</div>
       <header className="App-header">
       </header>
+              {response === "" ? <p></p> : <div style={{ maxWidth: "80%", margin: "auto", marginTop: "30px" }}><GetBookFromDb formattedTitleAuthorsList={extractFormattedTitleAuthors(response)} /></div>}
     </div>
     </ThemeProvider>
   );
 }
 
+function extractFormattedTitleAuthors(query){
+
+  var formattedTitleAuthorsList = []
+
+  const titles = query.split("\"").filter(function(element, index, array) {
+    return (index % 2 === 1);
+  });
+
+  const other = query.split("\"").filter(function(element, index, array) {
+    return (index % 2 === 0);
+  });
+
+  for(const [index, element] of  titles.entries()){
+    if(index === 3) {
+      break;
+    }
+    try{
+      formattedTitleAuthorsList.push(element+"-"+other[index+1].split(":")[0].replace(" by ", ""))
+    } catch (Exception) {console.log("Title missing")}
+  }
+
+  return formattedTitleAuthorsList
+  
+}
+
+function ShowResult(props){
+  console.log(props.booksDb)
+    if (props.valueList === [] || props.valueList === undefined) {
+      return <p></p>
+  }
+  
+  var matches = stringSimilarity.findBestMatch(props.titleCode, props.valueList);
+  var result = props.booksDb[matches.bestMatch.target]
+
+    console.log(result)
+
+  return <>
+  <CardMedia
+    component="img"
+    height="194"
+    src={result.image_url}
+          alt="Book cover"
+  />
+  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+  {result.format}
+</Typography>
+<Typography variant="body2">
+{result.price}
+</Typography></>
+}
+
+function GetBookFromDb(props){
+  const [booksDb, setBooksDb] = useState({});
+
+  useEffect(() => {
+    const loadData = async () => {
+      var data = await import('./assets/data/amazon/books_dic.json')
+      setBooksDb({ data })
+    }
+
+    loadData();
+  }, [props.formattedTitleAuthorsList])
+
+  if (props.formattedTitleAuthorsList === [] || props.formattedTitleAuthorsList === undefined) {
+    return <p></p>
+  }
+
+  return (booksDb === {} || Object.keys(booksDb).length === 0) ? <p></p> : 
+   <Grid container spacing={1}>
+    {props.formattedTitleAuthorsList.map(book => (
+      <Grid item xs={12} md={4} key={book}>
+        <Card sx={{ maxWidth: 275 }} key={book}>
+        <CardContent>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  {book.split("-")[1]}
+          </Typography>
+          <Typography variant="h5" component="div">
+            {book.split("-")[0]}
+          </Typography>
+          <ShowResult titleCode={book} valueList={Object.keys(booksDb.data)} booksDb={booksDb.data} />
+        </CardContent>
+        {/* <CardActions>
+          <Button size="small">Buy on Amazon</Button>
+        </CardActions> */}
+      </Card>
+    </Grid>))}
+    </Grid>
+          
+
+}
+
 function getEl(obj, ind){return (<li>{obj.replace(".", "")}</li>)}
 
+
 function extractBulletPoints(textInput){
-  var splitted = textInput.split(/\s[0-9]\.\s/)
+  const removeWrongOutput = textInput.split(" Human: ")[0]; 
+  var splitted = removeWrongOutput.split(/\s[0-9]\.\s/)
   var chunks = splitted.splice(1,3).map((obj, ind) =>getEl(obj, ind));
   return <><p>{splitted[0]}</p><ol>
       {chunks}
