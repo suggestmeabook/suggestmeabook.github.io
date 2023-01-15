@@ -5,9 +5,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
 import IconButton from '@mui/material/IconButton';
 import Card from '@mui/material/Card';
-// import CardActions from '@mui/material/CardActions';
+import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-// import Button from '@mui/material/Button';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import stringSimilarity from "string-similarity";
 import Grid from '@mui/material/Grid';
@@ -107,21 +107,46 @@ function ShowResult(props){
   var matches = stringSimilarity.findBestMatch(props.titleCode, props.valueList);
   var result = props.booksDb[matches.bestMatch.target]
 
-    console.log(result)
+  if(matches.bestMatch.rating < 0.3){
+    return <>
+    <CardContent>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  {props.book.split("-")[1]}
+          </Typography>
+          <Typography variant="h5" component="div">
+            {props.book.split("-")[0]}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            Book not found
+        </Typography>
+        </CardContent></>
+  }
 
   return <>
-  <CardMedia
-    component="img"
-    height="194"
-    src={result.image_url}
-          alt="Book cover"
-  />
-  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-  {result.format}
-</Typography>
-<Typography variant="body2">
-{result.price}
-</Typography></>
+  <CardContent>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  {matches.bestMatch.target.split("-")[1]}
+          </Typography>
+          <Typography variant="h5" component="div">
+            {matches.bestMatch.target.split("-")[0]}
+          </Typography>
+          <CardMedia
+            component="img"
+            height="300"
+            src={result.image_url}
+                  alt="Book cover"
+          />
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          {result.format}
+        </Typography>
+        <Typography variant="body2">
+        {result.price}
+        </Typography>
+        </CardContent>
+          {result.asin !== "" ? 
+          <CardActions>
+            <Button size="small" target="_blank" href={"http://www.amazon.it/dp/"+result.asin+"/ref=nosim?tag=suggestmeab00-20"}>Buy on Amazon</Button>
+          </CardActions> : <p></p>}</>
 }
 
 function GetBookFromDb(props){
@@ -141,25 +166,16 @@ function GetBookFromDb(props){
   }
 
   return (booksDb === {} || Object.keys(booksDb).length === 0) ? <p></p> : 
+
+  <><h2>Some books that you may find interesting:</h2>
    <Grid container spacing={1}>
     {props.formattedTitleAuthorsList.map(book => (
       <Grid item xs={12} md={4} key={book}>
         <Card sx={{ maxWidth: 275 }} key={book}>
-        <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                  {book.split("-")[1]}
-          </Typography>
-          <Typography variant="h5" component="div">
-            {book.split("-")[0]}
-          </Typography>
-          <ShowResult titleCode={book} valueList={Object.keys(booksDb.data)} booksDb={booksDb.data} />
-        </CardContent>
-        {/* <CardActions>
-          <Button size="small">Buy on Amazon</Button>
-        </CardActions> */}
+          <ShowResult titleCode={book} valueList={Object.keys(booksDb.data)} booksDb={booksDb.data} book={book}/>
       </Card>
     </Grid>))}
-    </Grid>
+    </Grid></>
           
 
 }
