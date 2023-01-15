@@ -1,26 +1,30 @@
-const fetch = require('node-fetch')
+const { Configuration, OpenAIApi } = require("openai");
 
 exports.handler = async function (event, context) {
+  const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+  const openai = new OpenAIApi(configuration);
   try{
     var { id } = event.queryStringParameters;
-    if (id.split(" ").length === 1) {id = "Suggest some great books on "+id+" please"};
+    if (id.split(" ").length === 1) {id = "Suggest some great books on "+id+" please. "};
     const prompt = createBookPrompt(id);
-    responseText = await fetch("https://api.openai.com/v1/completions", {
-        body: "{\"model\":\"davinci:ft-personal:suggestmeabook-v0-2023-01-13-12-26-27\", \"prompt\":\""+prompt+"\", \"max_tokens\": 150,\"temperature\": 0.5, \"stop\":\"\\nHuman\", \"best_of\":5}",
-        headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: process.env.OPENAI_API_KEY
-        },
-        method: "POST"
-    })
-    .then(response => response.json())
-    .then(data => {return data["choices"][0]["text"]})
+    const responseText = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: prompt,
+      temperature: 0.7,
+      max_tokens: 200,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+      stop: ["\nHuman:"],
+    }).then(data => { return data.data["choices"][0]["text"] });
     return {
         statusCode: 200,
         body: JSON.stringify({ response: responseText }),
     }
   } catch (err) {
+    console.log(err)
     return {
       statusCode: 404,
       body: err.toString(),
@@ -29,5 +33,5 @@ exports.handler = async function (event, context) {
 };
 
 function createBookPrompt(inputText) {
-  return `The following is a conversation with an AI assistant that suggests books. The assistant is very friendly and must ALWAYS follow the following rules: (1) Always suggest 3 books, (2) Always organize books in a numbered list, (3) Never reply with another question, (4) Always put book titles between double quotes and (5) Always write the book's author.\\n\\nHuman: Hello, who are you?\\nAI: I am an AI that suggests books. How can I help you today?\\nHuman: ${inputText}\\nAI:`;
+  return `You are an AI that suggests books. You always suggest 3 books using the format: <number>. "<book title>" by <author>: <short description>. \nHuman: ${inputText}\\nAI:`;
 }

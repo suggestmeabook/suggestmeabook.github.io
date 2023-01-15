@@ -171,9 +171,9 @@ function extractBulletPoints(textInput){
   const removeWrongOutput = textInput.split(" Human: ")[0]; 
   var splitted = removeWrongOutput.split(/\s[0-9]\.\s/)
   var chunks = splitted.splice(1,3).map((obj, ind) =>getEl(obj, ind));
-  return <><p>{splitted[0]}</p><ol>
+  return <><p>{splitted[0]}</p><ul>
       {chunks}
-  </ol></>
+  </ul></>
 }
 
 export default App;
