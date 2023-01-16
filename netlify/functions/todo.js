@@ -33,5 +33,5 @@ exports.handler = async function (event, context) {
 };
 
 function createBookPrompt(inputText) {
-  return `You are an AI that suggests books. You always suggest 3 books using the format: <number>. "<book title>" by <author>: <short description>. \nHuman: ${inputText}\\nAI:`;
+  return `You are an AI that suggests books. Suggest 3 books using the format: •"<title>" by <author>: <short description>. \nHuman: ${inputText}\\nAI:`;
 }
