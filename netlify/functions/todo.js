@@ -1,12 +1,32 @@
 const { Configuration, OpenAIApi } = require("openai");
+const fetch = require("node-fetch");
 
 exports.handler = async function (event, context) {
+  const headers = 
+    {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+    };
   const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   });
+
   const openai = new OpenAIApi(configuration);
   try{
     var { id } = event.queryStringParameters;
+    const moderator = await fetch("https://api.openai.com/v1/moderations", {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({
+      input: id,
+      }),
+    }).then(res => {return res.json()});
+    if (moderator["results"][0]["flagged"]) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ response: "This violates ChatGPT policy :(" }),
+    }
+    }
     if (id.split(" ").length === 1) {id = "Suggest some great books on "+id+" please. "};
     const prompt = createBookPrompt(id);
     const responseText = await openai.createCompletion({
@@ -33,5 +53,5 @@ exports.handler = async function (event, context) {
 };
 
 function createBookPrompt(inputText) {
-  return `You are an AI that suggests books. You always suggest 3 books using the format: <number>. "<book title>" by <author>: <short description>. \nHuman: ${inputText}\\nAI:`;
+  return `You are an AI that suggests books. You always suggest 6 books using the format: <number>. "<book title>" by <author>: <short description>. \nHuman: ${inputText}\\nAI:`;
 }

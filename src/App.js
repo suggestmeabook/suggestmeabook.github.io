@@ -40,7 +40,7 @@ function App() {
     We use prompt engineering to get an awesome list of titles suggested by ChatGPT.</p>
       <TextField 
         id="outlined-basic" 
-                  label="What kind of book are you looking for?" 
+                  label="What book are you looking for?" 
         style={{width: "80%",marginTop: "30px"}} 
         variant="outlined" 
         multiline
@@ -67,7 +67,15 @@ function App() {
               <div style={{ textAlign: "left", maxWidth: "80%", margin: "auto", marginTop: "30px" }}> {loading ? <p>Loading...</p> : extractBulletPoints(response)}</div>
       <header className="App-header">
       </header>
-              {response === "" ? <p></p> : <div style={{ maxWidth: "80%", margin: "auto", marginTop: "30px" }}><GetBookFromDb formattedTitleAuthorsList={extractFormattedTitleAuthors(response)} /></div>}
+              {response === "" ? <>
+              <h4>Examples:</h4>
+              <p style={{textAlign: "center"}}>
+                      <ul style={{ listStyleType: "none", textAlign: "left", display: "inline-block" }}>
+                  <li>Suggest me a book full of plot twists</li>
+                  <li>Books about starting a business</li>
+                  <li>What are some sci-fi books with complex AI characters?</li>
+                </ul>
+              </p></> : <div style={{ maxWidth: "80%", margin: "auto", marginTop: "30px" }}><GetBookFromDb formattedTitleAuthorsList={extractFormattedTitleAuthors(response)} /></div>}
     </div>
     </ThemeProvider>
   );
@@ -86,7 +94,7 @@ function extractFormattedTitleAuthors(query){
   });
 
   for(const [index, element] of  titles.entries()){
-    if(index === 3) {
+    if(index === 6) {
       break;
     }
     try{
@@ -134,7 +142,7 @@ function ShowResult(props){
             component="img"
             height="300"
             src={result.image_url}
-                  alt="Book cover"
+            alt="Book cover"
           />
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
           {result.format}
@@ -186,7 +194,7 @@ function getEl(obj, ind){return (<li>{obj.replace(".", "")}</li>)}
 function extractBulletPoints(textInput){
   const removeWrongOutput = textInput.split(" Human: ")[0]; 
   var splitted = removeWrongOutput.split(/\s[0-9]\.\s/)
-  var chunks = splitted.splice(1,3).map((obj, ind) =>getEl(obj, ind));
+  var chunks = splitted.splice(1,6).map((obj, ind) =>getEl(obj, ind));
   return <><p>{splitted[0]}</p><ul>
       {chunks}
   </ul></>
