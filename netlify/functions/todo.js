@@ -47,7 +47,7 @@ exports.handler = async function (event, context) {
     console.log(err)
     return {
       statusCode: 404,
-      body: err.toString(),
+        body: JSON.stringify({ response: "Connection error. Please try again later." }),
     };
   }
 };
