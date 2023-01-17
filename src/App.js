@@ -175,6 +175,10 @@ function GetBookFromDb(props){
     return <p></p>
   }
 
+    if (props.formattedTitleAuthorsList.length === 1) {
+      return <p></p>
+    }
+
   return (booksDb === {} || Object.keys(booksDb).length === 0) ? <p></p> : 
 
   <><h2>Some books that you may find interesting:</h2>
@@ -194,12 +198,17 @@ function getEl(obj, ind){return (<li key={obj}>{obj.replace(".", "")}</li>)}
 
 
 function extractBulletPoints(textInput){
-  const removeWrongOutput = textInput.split(" Human: ")[0]; 
-  var splitted = removeWrongOutput.split(/\s[0-9]\.\s/)
-  var chunks = splitted.splice(1,6).map((obj, ind) =>getEl(obj, ind));
-  return <><p>{splitted[0]}</p><ul>
-      {chunks}
-  </ul></>
+  try{
+    const removeWrongOutput = textInput.split(" Human: ")[0]; 
+    var splitted = removeWrongOutput.split(/\s[0-9]\.\s/)
+    var chunks = splitted.splice(1,6).map((obj, ind) =>getEl(obj, ind));
+    return <><p>{splitted[0]}</p><ul>
+        {chunks}
+    </ul></>
+  } catch (Exception) {
+    console.log(Exception)
+    return <p>{textInput}</p>
+  }
 }
 
 export default App;
