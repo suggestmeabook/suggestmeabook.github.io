@@ -69,13 +69,13 @@ function App() {
       </header>
               {response === "" ? <>
               <h4>Examples:</h4>
-              <p style={{textAlign: "center"}}>
+              <div style={{textAlign: "center"}}>
                       <ul style={{ listStyleType: "none", textAlign: "left", display: "inline-block" }}>
                   <li>Suggest me a book full of plot twists</li>
                   <li>Books about starting a business</li>
                   <li>What are some sci-fi books with complex AI characters?</li>
                 </ul>
-              </p></> : <div style={{ maxWidth: "80%", margin: "auto", marginTop: "30px" }}><GetBookFromDb formattedTitleAuthorsList={extractFormattedTitleAuthors(response)} /></div>}
+              </div></> : <div style={{ maxWidth: "80%", margin: "auto", marginTop: "30px" }}><GetBookFromDb formattedTitleAuthorsList={extractFormattedTitleAuthors(response)} /></div>}
     </div>
     </ThemeProvider>
   );
