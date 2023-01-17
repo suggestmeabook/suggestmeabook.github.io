@@ -2,17 +2,16 @@ const { Configuration, OpenAIApi } = require("openai");
 const fetch = require("node-fetch");
 
 exports.handler = async function (event, context) {
-  const headers = 
+  try{
+    const headers = 
     {
     "Content-Type": "application/json",
     "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
     };
-  const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-
-  const openai = new OpenAIApi(configuration);
-  try{
+    const configuration = new Configuration({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+    const openai = new OpenAIApi(configuration);
     var { id } = event.queryStringParameters;
     const moderator = await fetch("https://api.openai.com/v1/moderations", {
       method: 'POST',

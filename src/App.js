@@ -55,6 +55,7 @@ function App() {
               setResponse(todo.response);
             } catch (err) {
               console.log(err);
+              setResponse("An error occurred, please retry again later.");
             } finally {
               setLoading(false);
             }
@@ -67,15 +68,15 @@ function App() {
               <div style={{ textAlign: "left", maxWidth: "80%", margin: "auto", marginTop: "30px" }}> {loading ? <p>Loading...</p> : extractBulletPoints(response)}</div>
       <header className="App-header">
       </header>
-              {response === "" ? <>
-              <h4>Examples:</h4>
-              <div style={{textAlign: "center"}}>
-                      <ul style={{ listStyleType: "none", textAlign: "left", display: "inline-block" }}>
-                  <li>Suggest me a book full of plot twists</li>
-                  <li>Books about starting a business</li>
-                  <li>What are some sci-fi books with complex AI characters?</li>
-                </ul>
-              </div></> : <div style={{ maxWidth: "80%", margin: "auto", marginTop: "30px" }}><GetBookFromDb formattedTitleAuthorsList={extractFormattedTitleAuthors(response)} /></div>}
+      {response === "" ? <>
+      <h4>Examples:</h4>
+      <div style={{textAlign: "center"}}>
+              <ul style={{ listStyleType: "none", textAlign: "left", display: "inline-block" }}>
+          <li key="ex1">Suggest me a book full of plot twists</li>
+          <li key="ex2">Books about starting a business</li>
+          <li key="ex3">What are some sci-fi books with complex AI characters?</li>
+        </ul>
+      </div></> : <div style={{ maxWidth: "80%", margin: "auto", marginTop: "30px" }}><GetBookFromDb formattedTitleAuthorsList={extractFormattedTitleAuthors(response)} /></div>}
     </div>
     </ThemeProvider>
   );
@@ -107,7 +108,6 @@ function extractFormattedTitleAuthors(query){
 }
 
 function ShowResult(props){
-  console.log(props.booksDb)
     if (props.valueList === [] || props.valueList === undefined) {
       return <p></p>
   }
@@ -115,46 +115,48 @@ function ShowResult(props){
   var matches = stringSimilarity.findBestMatch(props.titleCode, props.valueList);
   var result = props.booksDb[matches.bestMatch.target]
 
-  if(matches.bestMatch.rating < 0.3){
+  console.log("Rebuild")
+
+  if(matches.bestMatch.rating < 0.4){
     return <>
     <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                  {props.book.split("-")[1]}
-          </Typography>
-          <Typography variant="h5" component="div">
-            {props.book.split("-")[0]}
-          </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            Book not found
-        </Typography>
-        </CardContent></>
+      <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        {props.book.split("-")[1]}
+      </Typography>
+      <Typography variant="h5" component="div">
+        {props.book.split("-")[0]}
+      </Typography>
+      <Typography sx={{ mb: 1.5 }} color="text.secondary">
+        Book not found
+      </Typography>
+    </CardContent></>
   }
 
   return <>
-  <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                  {matches.bestMatch.target.split("-")[1]}
-          </Typography>
-          <Typography variant="h5" component="div">
-            {matches.bestMatch.target.split("-")[0]}
-          </Typography>
-          <CardMedia
-            component="img"
-            height="300"
-            src={result.image_url}
-            alt="Book cover"
-          />
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {result.format}
-        </Typography>
-        <Typography variant="body2">
-        {result.price}
-        </Typography>
-        </CardContent>
-          {result.asin !== "" ? 
-          <CardActions>
-            <Button size="small" target="_blank" href={"http://www.amazon.it/dp/"+result.asin+"/ref=nosim?tag=suggestmeab00-20"}>Buy on Amazon</Button>
-          </CardActions> : <p></p>}</>
+  <CardContent key={props.book}>
+    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+      {matches.bestMatch.target.split("-")[1]}
+    </Typography>
+    <Typography variant="h5" component="div">
+      {matches.bestMatch.target.split("-")[0]}
+    </Typography>
+    <CardMedia
+      component="img"
+      height="300"
+      src={result.image_url}
+      alt="Book cover"
+    />
+    <Typography sx={{ mb: 1.5 }} color="text.secondary">
+      {result.format}
+    </Typography>
+    <Typography variant="body2">
+      {result.price}
+    </Typography>
+  </CardContent>
+  {result.asin !== "" ? 
+    <CardActions>
+      <Button size="small" target="_blank" href={"http://www.amazon.it/dp/"+result.asin+"/ref=nosim?tag=suggestmeab00-20"}>Buy on Amazon</Button>
+    </CardActions> : <p></p>}</>
 }
 
 function GetBookFromDb(props){
@@ -188,7 +190,7 @@ function GetBookFromDb(props){
 
 }
 
-function getEl(obj, ind){return (<li>{obj.replace(".", "")}</li>)}
+function getEl(obj, ind){return (<li key={obj}>{obj.replace(".", "")}</li>)}
 
 
 function extractBulletPoints(textInput){
