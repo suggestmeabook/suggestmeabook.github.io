@@ -43,7 +43,7 @@ function About(){
                 To get a list of recommendations, just enter your prompt (e.g. <span style={italicStyles}>“suggest me a sci-fi book with AI characters”</span>).
             </p>
             <p>
-                The website is inspired by the subreddit  r/suggestmeabook.
+                The website is inspired by the subreddit <a href="https://www.reddit.com/r/suggestmeabook" style={{ color: "#FF3232" }} target="_blank">r/suggestmeabook</a>.
             </p>
             </div>
         </div>
