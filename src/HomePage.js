@@ -41,7 +41,8 @@ function HomePage() {
         sx={{width: {xs:"80%", md: "50%", xl:"30%"},
         marginTop: "30px",
       borderRadius: "5%",
-      boxShadow: 3}} 
+      boxShadow: 3}}
+      inputProps={{maxlength: 150}}
         variant="outlined"
         rows={2}
                   onChange={(event) => { setText(event.target.value)}}
