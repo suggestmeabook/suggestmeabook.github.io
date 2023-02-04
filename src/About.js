@@ -33,9 +33,9 @@ function About(){
                 src={logo}
             />
             <div style={styles}>
-            <h3>
+            <h2>
                 About
-            </h3>
+            </h2>
             <p>
                 We use GPT-3.5 text generation model to create personalized book suggestions.
             </p>
