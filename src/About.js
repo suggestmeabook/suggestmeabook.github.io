@@ -5,9 +5,6 @@ import './App.css';
 import logo from './assets/SuggestABook.png';
 
 function About(){
-    const [response, setResponse] = useState("");
-    const [textValue, setText] = useState("");
-    const [loading, setLoading] = useState(false);
 
     const styles = {
         backgroundColor: '#F0F0F0',
@@ -15,8 +12,7 @@ function About(){
         padding: '20px',
         margin: 'auto',
         textAlign: 'left',
-        borderRadius: '25px',
-        marginTop: '30px'
+        borderRadius: '25px'
       };
 
     const italicStyles = {
