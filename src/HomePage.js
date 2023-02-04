@@ -1,7 +1,6 @@
 import './App.css';
 import TextField from '@mui/material/TextField';
 import React, {  useState, useEffect } from "react";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
 import IconButton from '@mui/material/IconButton';
 import Card from '@mui/material/Card';
@@ -12,11 +11,12 @@ import Typography from '@mui/material/Typography';
 import stringSimilarity from "string-similarity";
 import Grid from '@mui/material/Grid';
 import CardMedia from '@mui/material/CardMedia';
+import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import '@fontsource/roboto/400.css';
 
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Container from '@mui/material/Container';
-
+import logo from './assets/SuggestABook.png';
 
 function HomePage() {
   const [response, setResponse] = useState("");
@@ -24,17 +24,26 @@ function HomePage() {
   const [loading, setLoading] = useState(false);
 
   return (
-    <div className="App">
-      <h1>
-    SuggestABook.app</h1>
+    <div className="App" style={{fontFamily: "Roboto"}}>
+      <Box
+        component="img"
+        sx={{
+          marginTop: "20px",
+          maxHeight: { xs: 80, md: 161 },
+          maxWidth: { xs: 200, md: 400 },
+        }}
+        alt="SugestABookLogo."
+        src={logo}
+      />
     <p style={{marginTop: "10px"}} >
-    We use prompt engineering to get an awesome list of titles suggested by ChatGPT.</p>
+    Use AI to get a list of book recommendations</p>
       <TextField 
         id="outlined-basic" 
-                  label="What book are you looking for?" 
-        style={{width: "80%",marginTop: "30px"}} 
-        variant="outlined" 
-        multiline
+                  label="What kind of book are you looking for?" 
+        sx={{width: {xs:"80%", md: "50", xl:"30%"},
+        marginTop: "30px",
+      borderRadius: "5%"}} 
+        variant="outlined"
         rows={2}
                   onChange={(event) => { setText(event.target.value)}}
         InputProps={{endAdornment: <IconButton aria-label="get" onClick={() => {
@@ -59,15 +68,24 @@ function HomePage() {
               <div style={{ textAlign: "left", maxWidth: "80%", margin: "auto", marginTop: "30px" }}> {loading ? <p>Loading...</p> : extractBulletPoints(response)}</div>
       <header className="App-header">
       </header>
-      {response === "" ? <>
-      <h4>Examples:</h4>
-      <div style={{textAlign: "center"}}>
-              <ul style={{ listStyleType: "none", textAlign: "left", display: "inline-block" }}>
-          <li key="ex1">Suggest me a book full of plot twists</li>
-          <li key="ex2">Books about starting a business</li>
-          <li key="ex3">What are some sci-fi books with complex AI characters?</li>
-        </ul>
-      </div></> : <div style={{ maxWidth: "80%", margin: "auto", marginTop: "30px" }}><GetBookFromDb formattedTitleAuthorsList={extractFormattedTitleAuthors(response)} /></div>}
+      {response === "" ?
+      <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Card sx={{ minWidth: {xs: "50%", lg:"30%", xl: "20%"}, maxWidth: {xs: "80%", lg: "50%", xl: "20%"}, backgroundColor: "#F0F0F0", borderRadius: '5%'}}>
+      <CardContent>
+        <Typography fontFamily={"Roboto"} variant="h5" textAlign="left" fontWeight='bold' component="div">
+          Examples
+        </Typography>
+          <ul style={{ textAlign: "left", display: "inline-block" }}>
+            <li key="ex1">Suggest me a book full of plot twists</li>
+            <li key="ex2">Books about starting a business</li>
+            <li key="ex3">What are some sci-fi books with complex AI characters?</li>
+          </ul>
+      </CardContent>
+    </Card></Box> : <div style={{ maxWidth: "80%", margin: "auto", marginTop: "30px" }}><GetBookFromDb formattedTitleAuthorsList={extractFormattedTitleAuthors(response)} /></div>}
     </div>
   );
 }

@@ -7,6 +7,8 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 
+import '@fontsource/roboto/400.css';
+
 import HomePage from './HomePage'
 import About from './About'
 
@@ -33,7 +35,7 @@ function App() {
         <Toolbar disableGutters>
           <Container sx={{ flexGrow: 1}} />
           <Button 
-            style={{color:"#ffffff"}} 
+            style={{color:"#ffffff", fontFamily: "Roboto"}} 
             onClick={() => {
               setIsHome(true);
             }} 
@@ -41,7 +43,7 @@ function App() {
             HOME
           </Button>
           <Button 
-            style={{color:"#ffffff"}} 
+            style={{color:"#ffffff", fontFamily: "Roboto"}} 
             onClick={() => {
               setIsHome(false);
             }} 
