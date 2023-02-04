@@ -15,7 +15,8 @@ function About(){
         padding: '20px',
         margin: 'auto',
         textAlign: 'left',
-        borderRadius: '25px'
+        borderRadius: '25px',
+        marginTop: '30px'
       };
 
     const italicStyles = {
@@ -43,10 +44,10 @@ function About(){
                 We use GPT-3.5 text generation model to create personalized book suggestions.
             </p>
             <p>
-                To get a list of recommendations, just enter your prompt (e.g. <span style={italicStyles}>“suggest me a sci-fi book with AI characters”</span>)
+                To get a list of recommendations, just enter your prompt (e.g. <span style={italicStyles}>“suggest me a sci-fi book with AI characters”</span>).
             </p>
             <p>
-                The website is inspired by the subreddit  r/suggestmeabook
+                The website is inspired by the subreddit  r/suggestmeabook.
             </p>
             </div>
         </div>
