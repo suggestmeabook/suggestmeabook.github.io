@@ -12,8 +12,6 @@ import stringSimilarity from "string-similarity";
 import Grid from '@mui/material/Grid';
 import CardMedia from '@mui/material/CardMedia';
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import '@fontsource/roboto/400.css';
 
 import logo from './assets/SuggestABook.png';
