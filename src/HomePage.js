@@ -40,9 +40,10 @@ function HomePage() {
       <TextField 
         id="outlined-basic" 
                   label="What kind of book are you looking for?" 
-        sx={{width: {xs:"80%", md: "50", xl:"30%"},
+        sx={{width: {xs:"80%", md: "50%", xl:"30%"},
         marginTop: "30px",
-      borderRadius: "5%"}} 
+      borderRadius: "5%",
+      boxShadow: 3}} 
         variant="outlined"
         rows={2}
                   onChange={(event) => { setText(event.target.value)}}
@@ -69,23 +70,22 @@ function HomePage() {
       <header className="App-header">
       </header>
       {response === "" ?
-      <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <Card sx={{ minWidth: {xs: "50%", lg:"30%", xl: "20%"}, maxWidth: {xs: "80%", lg: "50%", xl: "20%"}, backgroundColor: "#F0F0F0", borderRadius: '5%'}}>
-      <CardContent>
-        <Typography fontFamily={"Roboto"} variant="h5" textAlign="left" fontWeight='bold' component="div">
+      <Box sx={{backgroundColor: '#F0F0F0',
+      width:  {xs:"80%", md: "50%", xl:"30%"},
+      padding: '20px',
+      margin: 'auto',
+      marginTop: '30px',
+      textAlign: 'left',
+      borderRadius: '25px'}}>
+        <Typography fontFamily={"Roboto"} variant="h4" fontWeight='bold' component="div" style={{marginLeft: "20px"}}>
           Examples
         </Typography>
-          <ul style={{ textAlign: "left", display: "inline-block" }}>
+          <ul style={{ textAlign: "left" }}>
             <li key="ex1">Suggest me a book full of plot twists</li>
             <li key="ex2">Books about starting a business</li>
             <li key="ex3">What are some sci-fi books with complex AI characters?</li>
           </ul>
-      </CardContent>
-    </Card></Box> : <div style={{ maxWidth: "80%", margin: "auto", marginTop: "30px" }}><GetBookFromDb formattedTitleAuthorsList={extractFormattedTitleAuthors(response)} /></div>}
+      </Box> : <div style={{ maxWidth: "80%", margin: "auto", marginTop: "30px" }}><GetBookFromDb formattedTitleAuthorsList={extractFormattedTitleAuthors(response)} /></div>}
     </div>
   );
 }
