@@ -70,7 +70,7 @@ function HomePage() {
       </header>
       {response === "" ?
       <Box sx={{backgroundColor: '#F0F0F0',
-      width:  {xs:"75%", md: "50%", xl:"30%"},
+      width:  {xs:"70%", md: "50%", xl:"30%"},
       padding: '20px',
       margin: 'auto',
       marginTop: '30px',
