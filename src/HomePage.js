@@ -93,22 +93,25 @@ function extractFormattedTitleAuthors(query){
 
   var formattedTitleAuthorsList = []
 
-  const titles = query.split("\"").filter(function(element, index, array) {
-    return (index % 2 === 1);
-  });
+  try{
+    const titles = query.split("\"").filter(function(element, index, array) {
+      return (index % 2 === 1);
+    });
 
-  const other = query.split("\"").filter(function(element, index, array) {
-    return (index % 2 === 0);
-  });
+    const other = query.split("\"").filter(function(element, index, array) {
+      return (index % 2 === 0);
+    });
 
-  for(const [index, element] of  titles.entries()){
-    if(index === 6) {
-      break;
+    for(const [index, element] of  titles.entries()){
+      if(index === 6) {
+        break;
+      }
+      try{
+        formattedTitleAuthorsList.push(element+"-"+other[index+1].split(":")[0].replace(" by ", ""))
+      } catch (error) {console.log("Title missing")}
     }
-    try{
-      formattedTitleAuthorsList.push(element+"-"+other[index+1].split(":")[0].replace(" by ", ""))
-    } catch (Exception) {console.log("Title missing")}
-  }
+  } catch (error) {console.log(error)}
+
 
   return formattedTitleAuthorsList
   
@@ -212,8 +215,8 @@ function extractBulletPoints(textInput){
     return <><p>{splitted[0]}</p><ul>
         {chunks}
     </ul></>
-  } catch (Exception) {
-    console.log(Exception)
+  } catch (error) {
+    console.log(error)
     return <p>{textInput}</p>
   }
 }
