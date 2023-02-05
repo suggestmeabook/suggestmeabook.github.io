@@ -209,9 +209,6 @@ function getEl(obj, ind){return (<li key={obj}>{obj.replace(".", "")}</li>)}
 
 function extractBulletPoints(textInput){
   try{
-    if(textInput === ''){
-      return "An error occured :( \n Please try again later."
-    }
     const removeWrongOutput = textInput.split(" Human: ")[0]; 
     var splitted = removeWrongOutput.split(/\s[0-9]\.\s/)
     var chunks = splitted.splice(1,6).map((obj, ind) =>getEl(obj, ind));
@@ -219,6 +216,9 @@ function extractBulletPoints(textInput){
         {chunks}
     </ul></>
   } catch (error) {
+    if(textInput === ''){
+      return "An error occured :( \n Please try again later."
+    }
     console.log(error)
     return <p>{textInput}</p>
   }
