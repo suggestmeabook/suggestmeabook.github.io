@@ -65,7 +65,7 @@ function HomePage() {
         <SendIcon />
       </IconButton>}}
         />
-              <div style={{ textAlign: "left", maxWidth: "80%", margin: "auto", marginTop: "30px" }}> {loading ? <p>Loading...</p> : extractBulletPoints(response)}</div>
+              <div style={{ textAlign: "left", maxWidth: "80%", margin: "auto", marginTop: "30px" }}> {loading ? <h3><center>Loading...</center></h3> : extractBulletPoints(response)}</div>
       <header className="App-header">
       </header>
       {response === "" ?
