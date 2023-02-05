@@ -75,7 +75,8 @@ function HomePage() {
       margin: 'auto',
       marginTop: '30px',
       textAlign: 'left',
-      borderRadius: '25px'}}>
+      borderRadius: '25px',
+      boxShadow: 3}}>
         <Typography fontFamily={"Roboto"} variant="h5" fontWeight='bold' component="div" style={{marginLeft: "20px"}}>
           Examples
         </Typography>
