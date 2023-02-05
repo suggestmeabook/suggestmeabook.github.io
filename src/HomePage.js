@@ -26,19 +26,19 @@ function HomePage() {
       <Box
         component="img"
         sx={{
-          marginTop: "20px",
+          marginTop: "100px",
           maxHeight: { xs: 80, md: 161 },
           maxWidth: { xs: 200, md: 400 },
         }}
         alt="SugestABookLogo."
         src={logo}
       />
-    <p style={{marginTop: "10px"}} >
+    <p style={{marginTop: "1px"}} >
     Use AI to get a list of book recommendations</p>
       <TextField 
         id="outlined-basic" 
                   label="What kind of book are you looking for?" 
-        sx={{width: {xs:"80%", md: "50%", xl:"30%"},
+        sx={{width: {xs:"80%", md: "50%", xl:"40%"},
         marginTop: "30px",
       borderRadius: "5%",
       boxShadow: 3}}
@@ -70,19 +70,19 @@ function HomePage() {
       </header>
       {response === "" ?
       <Box sx={{backgroundColor: '#F0F0F0',
-      width:  {xs:"80%", md: "50%", xl:"30%"},
+      width:  {xs:"75%", md: "50%", xl:"30%"},
       padding: '20px',
       margin: 'auto',
       marginTop: '30px',
       textAlign: 'left',
       borderRadius: '25px'}}>
-        <Typography fontFamily={"Roboto"} variant="h4" fontWeight='bold' component="div" style={{marginLeft: "20px"}}>
+        <Typography fontFamily={"Roboto"} variant="h5" fontWeight='bold' component="div" style={{marginLeft: "20px"}}>
           Examples
         </Typography>
           <ul style={{ textAlign: "left" }}>
             <li key="ex1">Suggest me a book full of plot twists</li>
-            <li key="ex2">Books about starting a business</li>
-            <li key="ex3">What are some sci-fi books with complex AI characters?</li>
+            <li key="ex2">Books to give as a gift to a 16 years old girl who loves science</li>
+            <li key="ex3">What are some good books for someone who wants to start their own business?</li>
           </ul>
       </Box> : <div style={{ maxWidth: "80%", margin: "auto", marginTop: "30px" }}><GetBookFromDb formattedTitleAuthorsList={extractFormattedTitleAuthors(response)} /></div>}
     </div>
